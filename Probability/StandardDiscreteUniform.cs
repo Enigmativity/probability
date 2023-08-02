@@ -27,7 +27,7 @@ namespace Probability
             Enumerable.Range(Min, 1 + Max - Min);
         public int Sample() =>
             (int)((SCU.Distribution.Sample() * (1.0 + Max - Min)) + Min);
-        public int Weight(int i) =>
+        public long Weight(int i) =>
             (Min <= i && i <= Max) ? 1 : 0;
         double IWeightedDistribution<int>.Weight(int x) => this.Weight(x);
         public override string ToString() =>

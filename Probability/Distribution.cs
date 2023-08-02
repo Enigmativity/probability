@@ -59,7 +59,7 @@ namespace Probability
             Func<A, IDiscreteDistribution<B>> likelihood,
             Func<A, B, C> projection)
         {
-            int lcm = prior.Support()
+            long lcm = prior.Support()
                 .Select(a => likelihood(a).TotalWeight())
                 .Where(x => x != 0)
                 .LCM();
@@ -107,7 +107,7 @@ namespace Probability
 
         public static IDiscreteDistribution<T> ToWeighted<T>(
             this IEnumerable<T> items,
-            IEnumerable<int> weights)
+            IEnumerable<long> weights)
         {
             var list = items.ToList();
             return WeightedInteger.Distribution(weights).Select(i => list[i]);
@@ -115,10 +115,10 @@ namespace Probability
 
         public static IDiscreteDistribution<T> ToWeighted<T>(
                 this IEnumerable<T> items,
-                params int[] weights) =>
-            items.ToWeighted((IEnumerable<int>)weights);
+                params long[] weights) =>
+            items.ToWeighted((IEnumerable<long>)weights);
 
-        public static int TotalWeight<T>(this IDiscreteDistribution<T> d) =>
+        public static long TotalWeight<T>(this IDiscreteDistribution<T> d) =>
             d.Support().Select(t => d.Weight(t)).Sum();
 
         public static double ExpectedValue(this IDiscreteDistribution<int> d) =>

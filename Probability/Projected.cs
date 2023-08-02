@@ -8,7 +8,7 @@ namespace Probability
     {
         private readonly IDiscreteDistribution<A> underlying;
         private readonly Func<A, R> projection;
-        private readonly Dictionary<R, int> weights;
+        private readonly Dictionary<R, long> weights;
         public static IDiscreteDistribution<R> Distribution(
           IDiscreteDistribution<A> underlying,
           Func<A, R> projection)
@@ -34,7 +34,7 @@ namespace Probability
         }
         public R Sample() => projection(underlying.Sample());
         public IEnumerable<R> Support() => this.weights.Keys;
-        public int Weight(R r) =>
+        public long Weight(R r) =>
           this.weights.GetValueOrDefault(r, 0);
 
         double IWeightedDistribution<R>.Weight(R r) => this.Weight(r);

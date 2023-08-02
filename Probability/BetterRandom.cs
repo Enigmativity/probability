@@ -10,14 +10,19 @@ namespace Probability
     {
         private static readonly ThreadLocal<CRNG> crng =
           new ThreadLocal<CRNG>(CRNG.Create);
-        private static readonly ThreadLocal<byte[]> bytes =
-          new ThreadLocal<byte[]>(() => new byte[sizeof(int)]);
+        private static readonly ThreadLocal<byte[]> bytesInt = new ThreadLocal<byte[]>(() => new byte[sizeof(int)]);
+        private static readonly ThreadLocal<byte[]> bytesLong = new ThreadLocal<byte[]>(() => new byte[sizeof(long)]);
         public static int NextInt()
         {
-            crng.Value.GetBytes(bytes.Value);
-            return BitConverter.ToInt32(bytes.Value, 0) & int.MaxValue;
+            crng.Value.GetBytes(bytesInt.Value);
+            return BitConverter.ToInt32(bytesInt.Value, 0) & int.MaxValue;
         }
-        public static double NextDouble()
+        public static long NextLong()
+        {
+            crng.Value.GetBytes(bytesLong.Value);
+            return BitConverter.ToInt64(bytesLong.Value, 0) & long.MaxValue;
+        }
+        public static double NextDoubleX()
         {
             while (true)
             {

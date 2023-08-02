@@ -9,7 +9,7 @@ namespace Probability
         private Singleton(T t) => this.t = t;
         public T Sample() => t;
         public IEnumerable<T> Support() => Enumerable.Repeat(this.t, 1);
-        public int Weight(T t) => EqualityComparer<T>.Default.Equals(this.t, t) ? 1 : 0;
+        public long Weight(T t) => EqualityComparer<T>.Default.Equals(this.t, t) ? 1 : 0;
         public override string ToString() => $"Singleton[{t}]";
         double IWeightedDistribution<T>.Weight(T t) => this.Weight(t);
     }

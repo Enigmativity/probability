@@ -41,7 +41,7 @@ namespace Probability
                 public IEnumerable<bool> Support() =>
                     throw new NotImplementedException();
 
-                public int Weight(bool t) =>
+                public long Weight(bool t) =>
                     throw new NotImplementedException();
 
                 double IWeightedDistribution<bool>.Weight(bool t) =>
@@ -64,7 +64,7 @@ namespace Probability
                 public IEnumerable<int> Support() =>
                     throw new NotImplementedException();
 
-                public int Weight(int t) =>
+                public long Weight(int t) =>
                     throw new NotImplementedException();
 
                 double IWeightedDistribution<int>.Weight(int t) =>
@@ -99,7 +99,7 @@ namespace Probability
                 public IEnumerable<string> Support() =>
                     throw new NotImplementedException();
 
-                public int Weight(string t) =>
+                public long Weight(string t) =>
                     throw new NotImplementedException();
 
                 double IWeightedDistribution<string>.Weight(string t) =>

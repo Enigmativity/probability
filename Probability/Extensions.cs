@@ -70,14 +70,26 @@ namespace Probability
         public static int GCD(int a, int b) =>
             b == 0 ? a : GCD(b, a % b);
 
+        public static long GCD(long a, long b) =>
+            b == 0L ? a : GCD(b, a % b);
+
         public static int GCD(this IEnumerable<int> numbers) =>
+            numbers.Aggregate(GCD);
+
+        public static long GCD(this IEnumerable<long> numbers) =>
             numbers.Aggregate(GCD);
 
         public static int LCM(int a, int b) =>
             a * b / GCD(a, b);
 
+        public static long LCM(long a, long b) =>
+            a * b / GCD(a, b);
+
         public static int LCM(this IEnumerable<int> numbers) =>
             numbers.Aggregate(1, LCM);
+
+        public static long LCM(this IEnumerable<long> numbers) =>
+            numbers.Aggregate(1L, LCM);
 
         static readonly char[] punct = "<>,*-()[#]@:%\"/';_&}".ToCharArray();
 

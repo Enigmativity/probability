@@ -4,7 +4,7 @@ namespace Probability
 {
     public sealed class DistributionBuilder<T>
     {
-        private Dictionary<T, int> weights = new Dictionary<T, int>();
+        private Dictionary<T, long> weights = new Dictionary<T, long>();
 
         public void Add(T t)
         {
