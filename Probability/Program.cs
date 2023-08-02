@@ -7,6 +7,7 @@ namespace Probability
         static void Main()
         {
             Console.WriteLine("Probability");
+            Console.WriteLine(StandardContinuousUniform.Distribution.Weight(0.5));
             // RandomIsAwful.DoIt();
             // Episode03.DoIt();
             // Episode04.DoIt();
@@ -38,7 +39,7 @@ namespace Probability
             // Episode36.DoIt();
             // Episode37.DoIt();
             // Episode38.DoIt();
-            Bonus02.DoIt();
+            //Bonus02.DoIt();
             Console.WriteLine("Press Enter to finish");
             Console.ReadLine();
         }

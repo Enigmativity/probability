@@ -9,9 +9,7 @@ namespace Probability
         private readonly IDiscreteDistribution<A> underlying;
         private readonly Func<A, R> projection;
         private readonly Dictionary<R, long> weights;
-        public static IDiscreteDistribution<R> Distribution(
-          IDiscreteDistribution<A> underlying,
-          Func<A, R> projection)
+        public static IDiscreteDistribution<R> Distribution(IDiscreteDistribution<A> underlying, Func<A, R> projection)
         {
             var result = new Projected<A, R>(underlying, projection);
             if (!result.Support().Any())
@@ -20,23 +18,15 @@ namespace Probability
                 return Singleton<R>.Distribution(result.Support().First());
             return result;
         }
-        private Projected(
-          IDiscreteDistribution<A> underlying,
-          Func<A, R> projection)
+        private Projected(IDiscreteDistribution<A> underlying, Func<A, R> projection)
         {
             this.underlying = underlying;
             this.projection = projection;
-            this.weights = underlying.Support().
-              GroupBy(
-                projection,
-                a => underlying.Weight(a)).
-              ToDictionary(g => g.Key, g => g.Sum());
+            this.weights = underlying.Support().GroupBy(projection, a => underlying.Weight(a)).ToDictionary(g => g.Key, g => g.Sum());
         }
         public R Sample() => projection(underlying.Sample());
         public IEnumerable<R> Support() => this.weights.Keys;
-        public long Weight(R r) =>
-          this.weights.GetValueOrDefault(r, 0);
-
+        public long Weight(R r) => this.weights.GetValueOrDefault(r, 0);
         double IWeightedDistribution<R>.Weight(R r) => this.Weight(r);
     }
 }

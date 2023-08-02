@@ -8,8 +8,7 @@ namespace Probability
     // Still not a great API. We can do better.
     public static class BetterRandom
     {
-        private static readonly ThreadLocal<CRNG> crng =
-          new ThreadLocal<CRNG>(CRNG.Create);
+        private static readonly ThreadLocal<CRNG> crng = new ThreadLocal<CRNG>(CRNG.Create);
         private static readonly ThreadLocal<byte[]> bytesInt = new ThreadLocal<byte[]>(() => new byte[sizeof(int)]);
         private static readonly ThreadLocal<byte[]> bytesLong = new ThreadLocal<byte[]>(() => new byte[sizeof(long)]);
         public static int NextInt()
@@ -22,7 +21,7 @@ namespace Probability
             crng.Value.GetBytes(bytesLong.Value);
             return BitConverter.ToInt64(bytesLong.Value, 0) & long.MaxValue;
         }
-        public static double NextDoubleX()
+        public static double NextDouble()
         {
             while (true)
             {
