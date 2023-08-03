@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 namespace Probability
 {
-    public interface IDiscreteDistribution<T> : IWeightedDistribution<T>
+    public interface IDiscreteDistribution<T> : IDistribution<T>
     {
         IEnumerable<T> Support();
-        new long Weight(T t);
+        long Weight(T t);
     }
 }

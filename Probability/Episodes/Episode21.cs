@@ -43,9 +43,6 @@ namespace Probability
 
                 public long Weight(bool t) =>
                     throw new NotImplementedException();
-
-                double IWeightedDistribution<bool>.Weight(bool t) =>
-                    throw new NotImplementedException();
             }
 
             static IDiscreteDistribution<int> TwoDSix() =>
@@ -66,10 +63,6 @@ namespace Probability
 
                 public long Weight(int t) =>
                     throw new NotImplementedException();
-
-                double IWeightedDistribution<int>.Weight(int t) =>
-                    throw new NotImplementedException();
-
             }
 
             static IDiscreteDistribution<string> Workflow(int z) =>
@@ -101,10 +94,6 @@ namespace Probability
 
                 public long Weight(string t) =>
                     throw new NotImplementedException();
-
-                double IWeightedDistribution<string>.Weight(string t) =>
-                    throw new NotImplementedException();
-
             }
         }
 
