@@ -1,18 +1,17 @@
 ﻿namespace Probability
 {
-    public sealed class Stretch : IWeightedDistribution<double>
+    public sealed class Stretch : IContinuousDistribution<double>
     {
-        private IWeightedDistribution<double> d;
+        private IContinuousDistribution<double> d;
         private double shift;
         private double stretch;
 
-        public static IWeightedDistribution<double> Distribution(
-            IWeightedDistribution<double> d, double stretch, double shift = 0.0, double around = 0.0)
+        public static IContinuousDistribution<double> Distribution(IContinuousDistribution<double> d, double stretch, double shift = 0.0, double around = 0.0)
         {
             if (stretch == 1.0 && shift == 0.0) return d;
             return new Stretch(d, stretch, shift + around - around * stretch);
         }
-        private Stretch(IWeightedDistribution<double> d, double stretch, double shift)
+        private Stretch(IContinuousDistribution<double> d, double stretch, double shift)
         {
             this.d = d;
             this.stretch = stretch;

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Probability
 {
-    public sealed class Projected<A, R> : IDiscreteDistribution<R>, IWeightedDistribution<R>
+    public sealed class Projected<A, R> : IDiscreteDistribution<R>
     {
         private readonly IDiscreteDistribution<A> underlying;
         private readonly Func<A, R> projection;
@@ -15,7 +15,7 @@ namespace Probability
             if (!result.Support().Any())
                 return Empty<R>.Distribution;
             if (result.Support().Count() == 1)
-                return Singleton<R>.Distribution(result.Support().First());
+                return DiscreteSingleton<R>.Distribution(result.Support().First());
             return result;
         }
         private Projected(IDiscreteDistribution<A> underlying, Func<A, R> projection)
@@ -27,6 +27,5 @@ namespace Probability
         public R Sample() => projection(underlying.Sample());
         public IEnumerable<R> Support() => this.weights.Keys;
         public long Weight(R r) => this.weights.GetValueOrDefault(r, 0);
-        double IWeightedDistribution<R>.Weight(R r) => this.Weight(r);
     }
 }

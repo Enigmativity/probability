@@ -2,7 +2,7 @@
 {
     using static System.Math;
     using SCU = StandardContinuousUniform;
-    public sealed class Normal : IWeightedDistribution<double>
+    public sealed class Normal : IContinuousDistribution<double>
     {
         public double Mean { get; }
         public double Sigma { get; }

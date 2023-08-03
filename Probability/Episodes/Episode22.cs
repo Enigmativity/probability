@@ -35,18 +35,12 @@ namespace Probability
 #endif
         static IDiscreteDistribution<int> Game(int rounds)
         {
-            IDiscreteDistribution<int> S0() =>
-                rounds <= 0 ? S5() : S1();
-            IDiscreteDistribution<int> S1() =>
-                Flip().SelectMany(x => S2(x));
-            IDiscreteDistribution<int> S2(bool x) =>
-                x ? S5() : S3();
-            IDiscreteDistribution<int> S3() =>
-                Game(rounds - 1).SelectMany(y => S4(y));
-            IDiscreteDistribution<int> S4(int y) =>
-                Singleton<int>.Distribution(y);
-            IDiscreteDistribution<int> S5() =>
-                Singleton<int>.Distribution(rounds);
+            IDiscreteDistribution<int> S0() => rounds <= 0 ? S5() : S1();
+            IDiscreteDistribution<int> S1() => Flip().SelectMany(x => S2(x));
+            IDiscreteDistribution<int> S2(bool x) => x ? S5() : S3();
+            IDiscreteDistribution<int> S3() => Game(rounds - 1).SelectMany(y => S4(y));
+            IDiscreteDistribution<int> S4(int y) => DiscreteSingleton<int>.Distribution(y);
+            IDiscreteDistribution<int> S5() => DiscreteSingleton<int>.Distribution(rounds);
             return S0();
         }
     }

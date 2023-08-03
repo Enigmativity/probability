@@ -15,8 +15,7 @@ namespace Probability
 
             Console.WriteLine("Expected fairness of coin from episode 30");
             var prior = Beta.Distribution(5, 5);
-            IWeightedDistribution<Result> likelihood(double d) =>
-                Flip<Result>.Distribution(Heads, Tails, d);
+            IContinuousDistribution<Result> likelihood(double d) => Flip<Result>.Distribution(Heads, Tails, d);
             var posterior = prior.Posterior(likelihood)(Heads);
             Console.WriteLine(posterior.Histogram(0, 1));
             Console.WriteLine(posterior.ExpectedValueBySampling());

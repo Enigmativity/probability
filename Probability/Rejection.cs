@@ -2,22 +2,16 @@
 namespace Probability
 {
     using static Distribution;
-    public class Rejection<T> : IWeightedDistribution<T>
+    public class Rejection<T> : IContinuousDistribution<T>
     {
         private readonly Func<T, double> weight;
-        private readonly IWeightedDistribution<T> dominating;
+        private readonly IContinuousDistribution<T> dominating;
         private readonly double factor;
 
-        public static IWeightedDistribution<T> Distribution(
-            Func<T, double> weight,
-            IWeightedDistribution<T> dominating, 
-            double factor = 1.0) =>
+        public static IContinuousDistribution<T> Distribution(Func<T, double> weight, IContinuousDistribution<T> dominating, double factor = 1.0) =>
             new Rejection<T>(weight, dominating, factor);
 
-        private Rejection(
-            Func<T, double> weight, 
-            IWeightedDistribution<T> dominating, 
-            double factor)
+        private Rejection(Func<T, double> weight, IContinuousDistribution<T> dominating, double factor)
         {
             this.weight = weight;
             this.dominating = dominating;

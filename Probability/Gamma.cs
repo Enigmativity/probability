@@ -3,7 +3,7 @@ namespace Probability
 {
     using static System.Math;
 
-    public sealed class Gamma : IWeightedDistribution<double>
+    public sealed class Gamma : IContinuousDistribution<double>
     {
         private readonly double k; // shape
         private readonly double θ; // scale
@@ -59,7 +59,6 @@ namespace Probability
         // Not normalized
         public double Weight(double x) => x <= 0.0 ? 0.0 : Pow(x, k - 1) * Exp(-x / θ);
 
-        public override string ToString() =>
-            $"Gamma({k}, {θ})";
+        public override string ToString() => $"Gamma({k}, {θ})";
     }
 }

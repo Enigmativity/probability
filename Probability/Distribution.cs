@@ -88,10 +88,10 @@ namespace Probability
         public static double ExpectedValue(this IDiscreteDistribution<int> d) =>
             d.Support().Select(s =>(double)s * d.Weight(s)).Sum() / d.TotalWeight();
 
-        public static double ExpectedValueByImportance(this IWeightedDistribution<double> p, Func<double, double> f, double qOverP, IWeightedDistribution<double> q, int n = 1000) =>
+        public static double ExpectedValueByImportance(this IContinuousDistribution<double> p, Func<double, double> f, double qOverP, IContinuousDistribution<double> q, int n = 1000) =>
             qOverP * q.ExpectedValueBySampling(x => f(x) * p.Weight(x) / q.Weight(x), n);
 
-        public static double ExpectedValueByImportance(this IWeightedDistribution<double> p, Func<double, double> f, IWeightedDistribution<double> q, int n = 1000)
+        public static double ExpectedValueByImportance(this IContinuousDistribution<double> p, Func<double, double> f, IContinuousDistribution<double> q, int n = 1000)
         {
             var pOverQ = q.ExpectedValueBySampling(x => p.Weight(x) / q.Weight(x), n);
             return p.ExpectedValueByImportance(f, 1.0 / pOverQ, q, n);
@@ -119,7 +119,7 @@ namespace Probability
             .Sum();
 
         public static double ExpectedValueByQuadrature(
-            this IWeightedDistribution<double> p,
+            this IContinuousDistribution<double> p,
             Func<double, double> f,
             double start = 0.0,
             double end = 1.0,
@@ -127,19 +127,15 @@ namespace Probability
           Area(x => f(x) * p.Weight(x), start, end, buckets) /
             Area(p.Weight, start, end, buckets);
 
-        public static IWeightedDistribution<bool> BooleanBernoulli(double p) =>
+        public static IContinuousDistribution<bool> BooleanBernoulli(double p) =>
             Flip<bool>.Distribution(true, false, p);
 
         public static Metropolis<double> NormalMetropolis(this Func<double, double> weight) =>
             Metropolis<double>.Distribution(weight, Normal.Standard, d => Normal.Distribution(d, 1.0));
 
-        public static Func<B, IWeightedDistribution<double>> Posterior<B>(
-            this IWeightedDistribution<double> prior,
-            Func<double, IWeightedDistribution<B>> likelihood) =>
+        public static Func<B, IContinuousDistribution<double>> Posterior<B>(this IContinuousDistribution<double> prior, Func<double, IContinuousDistribution<B>> likelihood)
+            =>
               b =>
-                Metropolis<double>.Distribution(
-                  d => prior.Weight(d) * likelihood(d).Weight(b),
-                  prior,
-                  d => Normal.Distribution(d, 1));
+                Metropolis<double>.Distribution(d => prior.Weight(d) * likelihood(d).Weight(b), prior, d => Normal.Distribution(d, 1));
     }
 }

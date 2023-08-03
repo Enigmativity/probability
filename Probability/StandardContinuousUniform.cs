@@ -1,6 +1,6 @@
 ﻿namespace Probability
 {
-    public sealed class StandardContinuousUniform : IWeightedDistribution<double>
+    public sealed class StandardContinuousUniform : IContinuousDistribution<double>
     {
         public static readonly StandardContinuousUniform Distribution = new StandardContinuousUniform();
         private StandardContinuousUniform() { }

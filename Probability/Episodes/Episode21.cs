@@ -110,49 +110,37 @@ namespace Probability
 
             static IDiscreteDistribution<bool> Flip()
             {
-                IDiscreteDistribution<bool> S0(int x) =>
-                    Bernoulli.Distribution(1, 1).SelectMany(_x => S1(_x));
-                IDiscreteDistribution<bool> S1(int x) =>
-                    Singleton<bool>.Distribution(x == 0);
+                IDiscreteDistribution<bool> S0(int x) => Bernoulli.Distribution(1, 1).SelectMany(_x => S1(_x));
+                IDiscreteDistribution<bool> S1(int x) => DiscreteSingleton<bool>.Distribution(x == 0);
                 return S0(0);
             }
             static IDiscreteDistribution<int> TwoDSix()
             {
-                IDiscreteDistribution<int> S0(IDiscreteDistribution<int> d, int x, int y) =>
-                    S1(StandardDiscreteUniform.Distribution(1, 6), x, y);
-                IDiscreteDistribution<int> S1(IDiscreteDistribution<int> d, int x, int y) =>
-                    d.SelectMany(_x => S2(d, _x, y));
-                IDiscreteDistribution<int> S2(IDiscreteDistribution<int> d, int x, int y) =>
-                    d.SelectMany(_y => S3(d, x, _y));
-                IDiscreteDistribution<int> S3(IDiscreteDistribution<int> d, int x, int y) =>
-                    Singleton<int>.Distribution(x + y);
+                IDiscreteDistribution<int> S0(IDiscreteDistribution<int> d, int x, int y) => S1(StandardDiscreteUniform.Distribution(1, 6), x, y);
+                IDiscreteDistribution<int> S1(IDiscreteDistribution<int> d, int x, int y) => d.SelectMany(_x => S2(d, _x, y));
+                IDiscreteDistribution<int> S2(IDiscreteDistribution<int> d, int x, int y) => d.SelectMany(_y => S3(d, x, _y));
+                IDiscreteDistribution<int> S3(IDiscreteDistribution<int> d, int x, int y) => DiscreteSingleton<int>.Distribution(x + y);
                 return S0(null, 0, 0);
             }
 
             static IDiscreteDistribution<string> Workflow(int z)
             {
-                IDiscreteDistribution<string> S0(int ii, bool b) =>
-                    TwoDSix().SelectMany(_ii => S1(_ii, b));
-                IDiscreteDistribution<string> S1(int ii, bool b) =>
-                    ii == 2 ? S2(ii, b) : S3(ii, b);
-                IDiscreteDistribution<string> S2(int ii, bool b) =>
-                    Singleton<string>.Distribution("two");
-                IDiscreteDistribution<string> S3(int ii, bool b) =>
-                    ii != z ? S4(ii, b) : Empty<string>.Distribution;
-                IDiscreteDistribution<string> S4(int ii, bool b) =>
-                    Flip().SelectMany(_b => S5(ii, _b));
-                IDiscreteDistribution<string> S5(int ii, bool b) =>
-                    Singleton<string>.Distribution(b ? "heads" : ii.ToString());
+                IDiscreteDistribution<string> S0(int ii, bool b) => TwoDSix().SelectMany(_ii => S1(_ii, b));
+                IDiscreteDistribution<string> S1(int ii, bool b) => ii == 2 ? S2(ii, b) : S3(ii, b);
+                IDiscreteDistribution<string> S2(int ii, bool b) => DiscreteSingleton<string>.Distribution("two");
+                IDiscreteDistribution<string> S3(int ii, bool b) => ii != z ? S4(ii, b) : Empty<string>.Distribution;
+                IDiscreteDistribution<string> S4(int ii, bool b) => Flip().SelectMany(_b => S5(ii, _b));
+                IDiscreteDistribution<string> S5(int ii, bool b) => DiscreteSingleton<string>.Distribution(b ? "heads" : ii.ToString());
                 return S0(0, false);
             }
 
             static IDiscreteDistribution<string> WorkflowInlined(int z) =>
                 TwoDSix().SelectMany(ii =>
                     ii == 2 ?
-                        Singleton<string>.Distribution("two") :
+                        DiscreteSingleton<string>.Distribution("two") :
                         ii != z ?
                             Flip().SelectMany(b =>
-                                Singleton<string>.Distribution(b ?
+                                DiscreteSingleton<string>.Distribution(b ?
                                     "heads" :
                                     ii.ToString())) :
                             Empty<string>.Distribution);

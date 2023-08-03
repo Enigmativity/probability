@@ -3,7 +3,7 @@ namespace Probability
 {
     using static System.Math;
 
-    public sealed class Beta : IWeightedDistribution<double>
+    public sealed class Beta : IContinuousDistribution<double>
     {
         private readonly double α; 
         private readonly double β;
@@ -15,11 +15,7 @@ namespace Probability
             return new Beta(alpha, beta);
         }
 
-        private Beta(double alpha, double beta)
-        {
-            this.α = alpha;
-            this.β = beta;
-        }
+        private Beta(double alpha, double beta) => (this.α, this.β) = (alpha, beta);
 
         public double Sample()
         {
@@ -31,7 +27,6 @@ namespace Probability
         // Not normalized
         public double Weight(double x) => x <= 0.0 || x >= 1.0 ? 0.0 : Pow(x, α - 1) * Pow(1 - x, β - 1);
 
-        public override string ToString() =>
-            $"Beta({α}, {β})";
+        public override string ToString() => $"Beta({α}, {β})";
     }
 }
