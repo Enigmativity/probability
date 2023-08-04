@@ -10,6 +10,7 @@ namespace Probability
     {
         private readonly List<long> weights;
         private readonly IDistribution<int>[] distributions;
+        private readonly IDistribution<int> distribution = null;
 
         public static IDiscreteDistribution<int> Distribution(params long[] weights) =>
             Distribution((IEnumerable<long>)weights);
@@ -68,6 +69,7 @@ namespace Probability
                 else
                     highs[high.Key] = newHigh;
             }
+            distribution = SDU.Distribution(0, this.weights.Count - 1);
         }
 
         public IEnumerable<int> Support() => Enumerable.Range(0, weights.Count).Where(x => weights[x] != 0);
@@ -76,7 +78,7 @@ namespace Probability
 
         public int Sample()
         {
-            int i = SDU.Distribution(0, weights.Count - 1).Sample();
+            int i = distribution.Sample();
             return distributions[i].Sample();
         }
 

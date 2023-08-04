@@ -8,6 +8,9 @@ namespace Probability
         {
             Console.WriteLine("Probability");
             Console.WriteLine(StandardContinuousUniform.Distribution.Weight(0.5));
+
+            var wi = WeightedInteger.Distribution(2, 5, 8, 2);
+            Console.WriteLine(wi.Sample());
             // RandomIsAwful.DoIt();
             // Episode03.DoIt();
             // Episode04.DoIt();

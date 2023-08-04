@@ -2,7 +2,7 @@
 using System.Linq;
 namespace Probability
 {
-    public sealed class DistributionBuilder<T>
+    public sealed class DiscreteDistributionBuilder<T>
     {
         private Dictionary<T, long> weights = new Dictionary<T, long>();
 
@@ -11,7 +11,7 @@ namespace Probability
             weights[t] = weights.GetValueOrDefault(t) + 1;
         }
 
-        public IDistribution<T> ToDistribution()
+        public IDiscreteDistribution<T> ToDiscreteDistribution()
         {
             var keys = weights.Keys.ToList();
             var values = keys.Select(k => weights[k]);

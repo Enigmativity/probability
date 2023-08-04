@@ -8,14 +8,9 @@ namespace Probability
         private readonly IDistribution<T> initial;
         private readonly Func<T, IDistribution<T>> transition;
 
-        public static Markov<T> Distribution(
-                IDistribution<T> initial,
-                Func<T, IDistribution<T>> transition) =>
-            new Markov<T>(initial, transition);
+        public static Markov<T> Distribution(IDistribution<T> initial, Func<T, IDistribution<T>> transition) => new Markov<T>(initial, transition);
 
-        private Markov(
-            IDistribution<T> initial,
-            Func<T, IDistribution<T>> transition)
+        private Markov(IDistribution<T> initial, Func<T, IDistribution<T>> transition)
         {
             this.initial = initial;
             this.transition = transition;

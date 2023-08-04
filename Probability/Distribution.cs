@@ -97,35 +97,22 @@ namespace Probability
             return p.ExpectedValueByImportance(f, 1.0 / pOverQ, q, n);
         }
 
-        public static double ExpectedValueBySampling<T>(
-            this IDistribution<T> d,
-            Func<T, double> f,
-            int samples = 1000) =>
-          d.Samples().Take(samples).Select(f).Average();
+        public static double ExpectedValueBySampling<T>(this IDistribution<T> d, Func<T, double> f, int samples = 1000) =>
+            d.Samples().Take(samples).Select(f).Average();
 
-        public static double ExpectedValueBySampling(
-            this IDistribution<double> d,
-            int samples = 1000) =>
+        public static double ExpectedValueBySampling(this IDistribution<double> d,int samples = 1000) =>
             d.ExpectedValueBySampling(x => x, samples);
 
-        public static double Area(
-            Func<double, double> f,
-            double start = 0.0,
-            double end = 1.0,
-            int buckets = 1000) =>
-          Enumerable.Range(0, buckets)
-            .Select(i => start + (end - start) * i / buckets)
-            .Select(x => f(x) / buckets)
-            .Sum();
+        public static double Area(Func<double, double> f, double start = 0.0, double end = 1.0, int buckets = 1000) =>
+            Enumerable
+                .Range(0, buckets)
+                .Select(i => start + (end - start) * i / buckets)
+                .Select(x => f(x) / buckets)
+                .Sum();
 
-        public static double ExpectedValueByQuadrature(
-            this IContinuousDistribution<double> p,
-            Func<double, double> f,
-            double start = 0.0,
-            double end = 1.0,
-            int buckets = 1000) =>
-          Area(x => f(x) * p.Weight(x), start, end, buckets) /
-            Area(p.Weight, start, end, buckets);
+        public static double ExpectedValueByQuadrature(this IContinuousDistribution<double> p, Func<double, double> f, double start = 0.0, double end = 1.0, int buckets = 1000) =>
+            Area(x => f(x) * p.Weight(x), start, end, buckets) /
+                Area(p.Weight, start, end, buckets);
 
         public static IContinuousDistribution<bool> BooleanBernoulli(double p) =>
             Flip<bool>.Distribution(true, false, p);
@@ -133,9 +120,8 @@ namespace Probability
         public static Metropolis<double> NormalMetropolis(this Func<double, double> weight) =>
             Metropolis<double>.Distribution(weight, Normal.Standard, d => Normal.Distribution(d, 1.0));
 
-        public static Func<B, IContinuousDistribution<double>> Posterior<B>(this IContinuousDistribution<double> prior, Func<double, IContinuousDistribution<B>> likelihood)
-            =>
-              b =>
+        public static Func<B, IContinuousDistribution<double>> Posterior<B>(this IContinuousDistribution<double> prior, Func<double, IContinuousDistribution<B>> likelihood) =>
+            b =>
                 Metropolis<double>.Distribution(d => prior.Weight(d) * likelihood(d).Weight(b), prior, d => Normal.Distribution(d, 1));
     }
 }
